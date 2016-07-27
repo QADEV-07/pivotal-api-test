@@ -1,4 +1,4 @@
-package org.fundacionjala.pivotal.cucumber.runner;
+package org.fundacionjala.api.cucumber.runner;
 
 import org.junit.runner.RunWith;
 
@@ -7,9 +7,9 @@ import cucumber.api.SnippetType;
 import cucumber.api.junit.Cucumber;
 
 /**
- * This class store settings for the test execution
- *
  * @author Henrry Salinas.
+ *
+ * This class store settings for the test execution
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(
@@ -19,8 +19,10 @@ import cucumber.api.junit.Cucumber;
                 "json:target/test-report.json",
                 "junit:target/test-report.xml"},
         features = {"src/test/resources/"},
-        glue = {"org.fundacionjala.pivotal.cucumber"},
+        glue = {"org.fundacionjala.api.cucumber"},
         snippets = SnippetType.CAMELCASE
 )
 public class Runner {
+
 }
+

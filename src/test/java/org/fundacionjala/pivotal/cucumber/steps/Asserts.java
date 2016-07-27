@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.Gson;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Then;
+
 import org.fundacionjala.pivotal.ProjectSteps;
 import org.fundacionjala.pivotal.ValidateProjects;
+
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
 
 import static org.fundacionjala.pivotal.util.CommonMethods.getStringValueFromMapOfResponses;
 import static org.junit.Assert.assertEquals;

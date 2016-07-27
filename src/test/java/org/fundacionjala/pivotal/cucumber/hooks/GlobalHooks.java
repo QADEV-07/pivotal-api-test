@@ -1,10 +1,10 @@
 package org.fundacionjala.pivotal.cucumber.hooks;
 
-import cucumber.api.java.Before;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.PropertyConfigurator;
-
 import org.fundacionjala.pivotal.util.Environment;
+
+import cucumber.api.java.Before;
 
 import static org.fundacionjala.pivotal.api.RequestManager.getRequest;
 import static org.fundacionjala.pivotal.util.CommonMethods.deleteAllProjects;
