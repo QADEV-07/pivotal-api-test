@@ -8,7 +8,11 @@ import java.util.regex.Pattern;
 import com.jayway.restassured.response.Response;
 
 import static com.jayway.restassured.path.json.JsonPath.from;
-
+/**
+ * This class transforms a pseudo url like: projects/[Project1.id] to a valid url.
+ *
+ * @author Henrry Salinas.
+ */
 public final class Mapper {
 
     public static final Map<String, Response> RESPONSE_VALUES = new HashMap<>();

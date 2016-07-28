@@ -1,14 +1,15 @@
 package org.fundacionjala.pivotal.cucumber.runner;
 
+import org.junit.runner.RunWith;
+
 import cucumber.api.CucumberOptions;
 import cucumber.api.SnippetType;
 import cucumber.api.junit.Cucumber;
-import org.junit.runner.RunWith;
 
 /**
+ * This class store settings for the test execution
+ *
  * @author Henrry Salinas.
- *         <p>
- *         This class store settings for the test execution
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(

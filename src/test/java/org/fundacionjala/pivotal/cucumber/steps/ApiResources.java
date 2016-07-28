@@ -14,9 +14,9 @@ import static org.fundacionjala.pivotal.api.RequestManager.postRequest;
 import static org.fundacionjala.pivotal.api.RequestManager.putRequest;
 
 /**
+ * This class provide the basic step definitions to work with api rest requests
+ *
  * @author Henrry Salinas.
- *         <p>
- *         This class provide the basic step definitions to work with api rest requests
  */
 public class ApiResources {
 
