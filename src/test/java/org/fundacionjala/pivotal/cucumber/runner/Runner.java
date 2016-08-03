@@ -23,4 +23,6 @@ import cucumber.api.junit.Cucumber;
         snippets = SnippetType.CAMELCASE
 )
 public class Runner {
+
 }
+

@@ -1,4 +1,3 @@
-@CleanEnvironment
 Feature: Post Epic
   As a user
   i want to add new epics to my project
@@ -6,13 +5,15 @@ Feature: Post Epic
 
   Background: Create a project
     Given I send a POST request to /projects
+
       | name   | project for create epics |
       | public | true                     |
-    And I expect the status code 200
+
     And stored as Project1
 
-  @deleteAllProject
+  @deleteProject
   Scenario: create a new epic
     Given I send a POST request to /projects/[Project1.id]/epics
+
       | name | Post example hs11h |
     Then I expect the status code 200

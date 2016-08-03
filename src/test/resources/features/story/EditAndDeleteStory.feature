@@ -5,7 +5,6 @@ Feature: Update a story in project from pivotal tracker
     Given I send a POST request to /projects
       | name   | projectTest |
       | public | true        |
-    And I expect the status code 200
     And stored as Project1
 
     Given I send a POST request to /projects/[Project1.id]/stories

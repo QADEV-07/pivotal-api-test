@@ -23,7 +23,14 @@ public final class Mapper {
 
     private static final String REGEX_BRACKETS = "[\\[\\]]";
 
+    private static final String REGEX_UNTIL_PROJECT = "^(\\/.*?\\/.*?\\/)";
+
+
     private Mapper() {
+    }
+
+    public static String getField(Response response, String parameter) {
+        return from(response.asString()).get(parameter).toString();
     }
 
     public static String mapEndpoint(String endPoint) {

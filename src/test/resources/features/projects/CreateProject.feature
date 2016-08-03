@@ -1,4 +1,3 @@
-@CleanEnvironment
 Feature: Testing for login Pivotal page
 
   @smoke @deleteAllProject
