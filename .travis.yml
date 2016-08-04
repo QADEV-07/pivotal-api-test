@@ -2,8 +2,11 @@ language: java
 jdk:
 - oraclejdk8
 sudo: required
+
+script: gradle executeFeatures -PapiToken=b79614721c9f3fbc59017e10752c2a0b -PcucumberOptions="--tags @smoke"
 branches:
-  only: develop
+only: develop
+
 notifications:
  email: true 
  recipients:
