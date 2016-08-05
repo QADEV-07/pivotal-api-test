@@ -20,7 +20,7 @@ public final class Mapper {
     private static final String REGEX_KEY = "\\[(.*?)\\.";
     private static final String REGEX_VALUE = "\\.(.*?)\\]";
     private static final String REGEX_REPLACE = "\\[(.*?)\\]";
-
+    
     private Mapper() {
     }
 
@@ -33,17 +33,19 @@ public final class Mapper {
      * @return
      */
     public static String mapEndpoint(String endPoint) {
+        String newEndpoint = endPoint;
         if (endPoint.contains(BRACKET)) {
             Matcher mKey = Pattern.compile(REGEX_KEY).matcher(endPoint);
             Matcher mValue = Pattern.compile(REGEX_VALUE).matcher(endPoint);
+
             while (mKey.find() && mValue.find()) {
                 final int groupRegex = 1;
                 String key = mKey.group(groupRegex);
                 String value = mValue.group(groupRegex);
-                endPoint = endPoint.replaceFirst(REGEX_REPLACE, responseValues.get(key).jsonPath().get(value).toString());
+                newEndpoint = newEndpoint.replaceFirst(REGEX_REPLACE, responseValues.get(key).jsonPath().get(value).toString());
             }
         }
-        return endPoint;
+        return newEndpoint;
     }
 
     /**

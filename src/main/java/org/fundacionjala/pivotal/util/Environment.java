@@ -52,11 +52,9 @@ public class Environment {
             properties.load(fileInputStream);
             fileInputStream.close();
         } catch (FileNotFoundException e) {
-            LOGGER.warn("The properties file couldn't be found", e.getCause());
-            throw new RuntimeException(e);
+            LOGGER.warn("The properties file couldn't be found", e);
         } catch (IOException e) {
-            LOGGER.warn("A problem of type", e.getCause());
-            throw new RuntimeException(e);
+            LOGGER.warn("A problem of type", e);
         }
     }
 

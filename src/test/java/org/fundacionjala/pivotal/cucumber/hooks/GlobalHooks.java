@@ -30,7 +30,7 @@ public class GlobalHooks {
 
     private static Environment environment;
 
-    private static boolean beforeAllFlag = false;
+    private boolean beforeAllFlag = false;
 
     public GlobalHooks() throws IOException {
         environment = getInstance();
