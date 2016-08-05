@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.fundacionjala.pivotal.api.Mapper;
 
+import static com.jayway.restassured.path.json.JsonPath.from;
 import static org.fundacionjala.pivotal.api.RequestManager.deleteRequest;
 import static org.fundacionjala.pivotal.api.RequestManager.getRequest;
-import static org.fundacionjala.pivotal.util.Constants.PROJECTS_ENDPOINT;
 import static org.fundacionjala.pivotal.util.Constants.ATTRIBUTE_ID;
-import static org.fundacionjala.pivotal.api.Mapper.RESPONSE_VALUES;
+import static org.fundacionjala.pivotal.util.Constants.PROJECTS_ENDPOINT;
 import static org.fundacionjala.pivotal.util.Constants.WORKSPACES_ENDPOINT;
-import static com.jayway.restassured.path.json.JsonPath.from;
 
 
 /**
@@ -37,6 +37,9 @@ public final class CommonMethods {
         }
     }
 
+    /**
+     * This method delete all workspace from pivotal tracker.
+     */
     public static void deleteAllWorkspaces() {
         List<Map<String, ?>> jsonAsArrayList = from(getRequest(WORKSPACES_ENDPOINT).asString()).get("");
         for (Map<String, ?> object : jsonAsArrayList) {
@@ -52,7 +55,7 @@ public final class CommonMethods {
      * @return an String Value
      */
     public static String getStringValueFromMapOfResponses(String key, String value) {
-        return RESPONSE_VALUES.get(key).jsonPath().get(value);
+        return Mapper.getResponseValues().get(key).jsonPath().get(value);
     }
 
     /**

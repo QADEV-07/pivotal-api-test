@@ -1,10 +1,11 @@
 package org.fundacionjala.pivotal.cucumber.hooks;
 
+import java.io.IOException;
+
+import cucumber.api.java.Before;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.fundacionjala.pivotal.util.Environment;
-
-import cucumber.api.java.Before;
 
 import static org.fundacionjala.pivotal.api.RequestManager.getRequest;
 import static org.fundacionjala.pivotal.util.CommonMethods.deleteAllProjects;
@@ -12,6 +13,7 @@ import static org.fundacionjala.pivotal.util.CommonMethods.deleteAllWorkspaces;
 import static org.fundacionjala.pivotal.util.CommonMethods.quitProgram;
 import static org.fundacionjala.pivotal.util.Constants.PROJECTS_ENDPOINT;
 import static org.fundacionjala.pivotal.util.Constants.SUCCESS_STATUS_CODE;
+import static org.fundacionjala.pivotal.util.Environment.getInstance;
 
 /**
  * This class stores the global hooks methods required to run the test
@@ -26,27 +28,30 @@ public class GlobalHooks {
 
     private static final String API_CREDENTIALS_INCORRECT = "The org rest credentials is not correct";
 
-    private static final Environment ENVIRONMENT = Environment.getInstance();
+    private static Environment environment;
 
-    private static boolean BEFORE_ALL_FLAG = false;
+    private static boolean beforeAllFlag = false;
+
+    public GlobalHooks() throws IOException {
+        environment = getInstance();
+    }
 
     @Before
     public void beforeAll() {
-        if (!BEFORE_ALL_FLAG) {
+        if (!beforeAllFlag) {
             Runtime.getRuntime().addShutdownHook(new Thread() {
+                @Override
                 public void run() {
                     deleteAllProjects();
                     deleteAllWorkspaces();
                 }
             });
-            if (StringUtils.isEmpty(ENVIRONMENT.getEmail()) ||
-                    StringUtils.isEmpty(ENVIRONMENT.getApiToken()) ||
-                    StringUtils.isEmpty(ENVIRONMENT.getPassword())) {
+            if (StringUtils.isEmpty(environment.getApiToken())) {
                 quitProgram(PROPERTIES_FILE_UNFILLED);
             } else if (getRequest(PROJECTS_ENDPOINT).statusCode() != SUCCESS_STATUS_CODE) {
                 quitProgram(API_CREDENTIALS_INCORRECT);
             }
-            BEFORE_ALL_FLAG = true;
+            beforeAllFlag = true;
         }
         PropertyConfigurator.configure(LOG4J_PROPERTIES);
     }

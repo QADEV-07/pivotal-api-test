@@ -1,9 +1,5 @@
 package org.fundacionjala.pivotal.cucumber.steps;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.google.gson.Gson;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
@@ -44,7 +40,6 @@ import static org.fundacionjala.pivotal.util.CommonValidations.validateStringDat
 import static org.fundacionjala.pivotal.util.CommonValidations.validateValueIntoList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 public class Asserts {
 
@@ -68,13 +63,9 @@ public class Asserts {
         assertEquals(expectedValue, api.getResponse().path(fieldName));
     }
 
-    @And("^I validate all setting projects$")
-    public void iValidateAllSettingProjects() {
-        Gson gson = new Gson();
-        Map<ProjectSteps, Object> map = new HashMap<>();
-        map = (Map<ProjectSteps, Object>) gson.fromJson(api.getResponse().print(), map.getClass());
-        getAssertionMap(map).values()
-                .forEach((steps) -> assertTrue("The fields is false ", steps));
+    @Then("^I expect the status code (\\d+)$")
+    public void iExpectStatusCode(int statusCodeExpected) {
+        assertEquals(statusCodeExpected, api.getResponse().statusCode());
     }
 
     @Then("^I expect that \\[(.*)\\] be (.*)$")
@@ -95,38 +86,5 @@ public class Asserts {
     public void iValidateFields() {
         final String expected = "newStory";
         assertEquals(expected, api.getResponse().jsonPath().get("name"));
-    }
-
-    public Map<ProjectSteps, Boolean> getAssertionMap(Map<ProjectSteps, Object> values) {
-        Map<ProjectSteps, Boolean> strategyMap = new HashMap<>();
-        strategyMap.put(ID, validateSizeString(String.valueOf(values.get(ID.nameLowerCase()).toString()), 50));
-        strategyMap.put(KIND, validateKind(values.get(KIND.nameLowerCase()).toString(), "project"));
-        strategyMap.put(NAME, validateSizeString(values.get(NAME.nameLowerCase()).toString(), 50));
-        strategyMap.put(VERSION, isAInt(values.get(VERSION.nameLowerCase()).toString()));
-        strategyMap.put(ITERATION_LENGTH, isAInt(values.get(ITERATION_LENGTH.nameLowerCase()).toString()));
-        strategyMap.put(WEEK_START_DAY, validateValueIntoList(Constants.nameDays, values.get(WEEK_START_DAY.nameLowerCase()).toString()));
-        strategyMap.put(POINT_SCALE_IS_CUSTOM, isABoolean(values.get(POINT_SCALE_IS_CUSTOM.nameLowerCase()).toString()));
-        strategyMap.put(BUGS_AND_CHORES_ARE_ESTIMATABLE, isABoolean(values.get(BUGS_AND_CHORES_ARE_ESTIMATABLE.nameLowerCase()).toString()));
-        strategyMap.put(AUTOMATIC_PLANNING, isABoolean(values.get(AUTOMATIC_PLANNING.nameLowerCase()).toString()));
-        strategyMap.put(ENABLE_TASKS, isABoolean(values.get(ENABLE_TASKS.nameLowerCase()).toString()));
-        strategyMap.put(VELOCITY_AVERAGED_OVER, isAInt(values.get(VELOCITY_AVERAGED_OVER.nameLowerCase()).toString()));
-        strategyMap.put(NUMBER_OF_DONE_ITERATIONS_TO_SHOW, isAInt(values.get(NUMBER_OF_DONE_ITERATIONS_TO_SHOW.nameLowerCase()).toString()));
-        strategyMap.put(HAS_GOOGLE_DOMAIN, isABoolean(values.get(HAS_GOOGLE_DOMAIN.nameLowerCase()).toString()));
-        strategyMap.put(ENABLE_INCOMING_EMAILS, isABoolean(values.get(ENABLE_INCOMING_EMAILS.nameLowerCase()).toString()));
-        strategyMap.put(INITIAL_VELOCITY, isAInt(values.get(INITIAL_VELOCITY.nameLowerCase()).toString()));
-        strategyMap.put(PUBLIC, isABoolean(values.get(PUBLIC.nameLowerCase()).toString()));
-        strategyMap.put(ATOM_ENABLED, isABoolean(values.get(ATOM_ENABLED.nameLowerCase()).toString()));
-        strategyMap.put(PROJECT_TYPE, projectType(values.get(PROJECT_TYPE.nameLowerCase()).toString()));
-        strategyMap.put(START_TIME, validateStringDate(values.get(START_TIME.nameLowerCase()).toString()));
-        strategyMap.put(CREATED_AT, validateStringDate(values.get(CREATED_AT.nameLowerCase()).toString()));
-        strategyMap.put(UPDATED_AT, validateStringDate(values.get(UPDATED_AT.nameLowerCase()).toString()));
-        strategyMap.put(ACCOUNT_ID, validateId(values.get(ACCOUNT_ID.nameLowerCase()).toString()));
-        strategyMap.put(CURRENT_ITERATION_NUMBER, isAInt(values.get(CURRENT_ITERATION_NUMBER.nameLowerCase()).toString()));
-        strategyMap.put(ENABLE_FOLLOWING, isABoolean(values.get(ENABLE_FOLLOWING.nameLowerCase()).toString()));
-        return strategyMap;
-    }
-
-    private boolean projectType(String projectType) {
-        return projectType.matches("demo|private|public|shared");
     }
 }

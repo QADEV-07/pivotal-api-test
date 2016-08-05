@@ -1,0 +1,14 @@
+language: java
+jdk:
+- oraclejdk8
+sudo: required
+
+script: gradle compileJava compileJavaTest
+branches:
+only: develop
+
+notifications:
+  email: true 
+  recipients:
+  - Rosario.Garcia@fundacion-jala.org
+  - Bruno.Barrios@fundacion-jala.org

@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 
 import com.jayway.restassured.response.Response;
 
-import static com.jayway.restassured.path.json.JsonPath.from;
 /**
  * This class transforms a pseudo url like: projects/[Project1.id] to a valid url.
  *
@@ -15,38 +14,50 @@ import static com.jayway.restassured.path.json.JsonPath.from;
  */
 public final class Mapper {
 
-    public static final Map<String, Response> RESPONSE_VALUES = new HashMap<>();
+    private static final Map<String, Response> responseValues = new HashMap<>();
 
-    private static final String REGEX_INSIDE_BRACKETS = "(?<=\\[)(.*?)(?=\\])";
-
-    private static final String REGEX_DOT = "\\.";
-
-    private static final String REGEX_BRACKETS = "[\\[\\]]";
+    private static final String BRACKET = "[";
+    private static final String REGEX_KEY = "\\[(.*?)\\.";
+    private static final String REGEX_VALUE = "\\.(.*?)\\]";
+    private static final String REGEX_REPLACE = "\\[(.*?)\\]";
 
     private Mapper() {
     }
 
+    /**
+     * This method is to map a new endpoint
+     * If the endpoint contains '[', the method take the key and value
+     * to get from Map of responses and replace to format the new endpoint
+     *
+     * @param endPoint
+     * @return
+     */
     public static String mapEndpoint(String endPoint) {
-        Matcher matches = Pattern.compile(REGEX_INSIDE_BRACKETS).matcher(endPoint);
-        StringBuffer newEndPoint = new StringBuffer();
-
-        while (matches.find()) {
-            String[] parametersParts = matches.group().split(REGEX_DOT, 2);
-            String key = parametersParts[0];
-            String value = parametersParts[1];
-            String replaceParameter = getField(RESPONSE_VALUES.get(key), value);
-            matches.appendReplacement(newEndPoint, replaceParameter);
+        if (endPoint.contains(BRACKET)) {
+            Matcher mKey = Pattern.compile(REGEX_KEY).matcher(endPoint);
+            Matcher mValue = Pattern.compile(REGEX_VALUE).matcher(endPoint);
+            while (mKey.find() && mValue.find()) {
+                final int groupRegex = 1;
+                String key = mKey.group(groupRegex);
+                String value = mValue.group(groupRegex);
+                endPoint = endPoint.replaceFirst(REGEX_REPLACE, responseValues.get(key).jsonPath().get(value).toString());
+            }
         }
-        matches.appendTail(newEndPoint);
-        return newEndPoint.toString().replaceAll(REGEX_BRACKETS, "");
+        return endPoint;
     }
 
+    /**
+     * This method is used to save a new response
+     * from the requests to API into a map
+     *
+     * @param key
+     * @param response
+     */
     public static void addResponse(String key, Response response) {
-        RESPONSE_VALUES.put(key, response);
+        responseValues.put(key, response);
     }
 
-    private static String getField(Response response, String parameter) {
-        return from(response.asString()).get(parameter).toString();
+    public static Map<String, Response> getResponseValues() {
+        return responseValues;
     }
-
 }
