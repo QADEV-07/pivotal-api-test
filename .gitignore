@@ -102,3 +102,4 @@ movies/movies.iml
 /.gradle/
 /build/
 /cucumber-html-report/
+/classes/
