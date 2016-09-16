@@ -1,9 +1,8 @@
 package org.fundacionjala.pivotal.cucumber.steps;
 
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
-import static com.jayway.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 import static org.fundacionjala.pivotal.util.CommonMethods.getStringValueFromMapOfResponses;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -25,7 +24,7 @@ public class Asserts {
         assertEquals(statusCodeExpected, resources.getResponse().statusCode());
     }
 
-    @And("^The (.*?) field should be equals? to (.*)$")
+    @Then("^The (.*?) field should be equals? to (.*)$")
     public void theProjectShouldBeUpdated(String fieldName, String expectedValue) {
         assertEquals(expectedValue, resources.getResponse().path(fieldName));
     }
@@ -37,7 +36,7 @@ public class Asserts {
         assertEquals(expectedResult, actualResult);
     }
 
-    @And("^I expect that \\[(.*)\\] not be (.*)$")
+    @Then("^I expect that \\[(.*)\\] not be (.*)$")
     public void iExpectThatCommentTextNotBeCommentTest(String expectedName, String expectedResult) {
         String[] value = expectedName.split("\\.");
         String actualResult = getStringValueFromMapOfResponses(value[INDEX_1], value[INDEX_2]);

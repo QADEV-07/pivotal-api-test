@@ -2,12 +2,11 @@ package org.fundacionjala.pivotal.api;
 
 import java.util.Map;
 
-import com.jayway.restassured.response.Response;
-import com.jayway.restassured.specification.RequestSpecification;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.apache.log4j.Logger;
 
-import static com.jayway.restassured.RestAssured.given;
-import static org.fundacionjala.pivotal.api.Authentication.getInstance;
+import static io.restassured.RestAssured.given;
 
 /**
  * The purpose of this class is to provide methods that manage the API REST
@@ -15,11 +14,11 @@ import static org.fundacionjala.pivotal.api.Authentication.getInstance;
  *
  * @author Henrry Salinas.
  */
-public class RequestManager {
+public final class RequestManager {
 
     private static final Logger LOGGER = Logger.getLogger(RequestManager.class.getName());
 
-    private static final RequestSpecification REQUEST = getInstance().getRequestSpecification();
+    private static final RequestSpecification REQUEST = Authentication.getInstance().getRequestSpecification();
 
     private RequestManager() {
     }
@@ -76,7 +75,7 @@ public class RequestManager {
      */
     public static Response deleteRequest(String endpoint) {
         LOGGER.info("DELETE endpoint is: " + endpoint);
-        return given().spec(REQUEST).when().delete(endpoint);
+        return given().spec(REQUEST)
+                .when().delete(endpoint);
     }
 }
-

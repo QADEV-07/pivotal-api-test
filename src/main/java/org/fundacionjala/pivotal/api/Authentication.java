@@ -1,14 +1,13 @@
 package org.fundacionjala.pivotal.api;
 
-import com.github.markusbernhardt.proxy.ProxySearch;
-import com.jayway.restassured.builder.RequestSpecBuilder;
-import com.jayway.restassured.specification.RequestSpecification;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.specification.RequestSpecification;
 import org.fundacionjala.pivotal.util.Environment;
 
 /**
  * @author Henrry Salinas.
  */
-public class Authentication {
+public final class Authentication {
 
     private static final String TOKEN_HEADER = "X-TrackerToken";
 
@@ -30,19 +29,14 @@ public class Authentication {
     }
 
     private void initApi() {
-        if (ProxySearch.getDefaultProxySearch().getProxySelector() == null) {
-            requestSpecification = new RequestSpecBuilder()
-                    .setRelaxedHTTPSValidation()
-                    .addHeader(TOKEN_HEADER, ENVIRONMENT.getApiToken())
-                    .build();
-        } else {
-            requestSpecification = new RequestSpecBuilder()
-                    .setRelaxedHTTPSValidation()
-                    .setProxy(ENVIRONMENT.getProxy())
-                    .addHeader(TOKEN_HEADER, ENVIRONMENT.getApiToken())
-                    .build();
+        requestSpecification = new RequestSpecBuilder()
+                .setRelaxedHTTPSValidation()
+                .setBaseUri(ENVIRONMENT.getUrlApi())
+                .addHeader(TOKEN_HEADER, ENVIRONMENT.getApiToken())
+                .build();
+        if (!ENVIRONMENT.getProxyHost().isEmpty()) {
+            requestSpecification.proxy(ENVIRONMENT.getProxy());
         }
-        requestSpecification.baseUri(ENVIRONMENT.getUrlApi());
     }
 
     public RequestSpecification getRequestSpecification() {

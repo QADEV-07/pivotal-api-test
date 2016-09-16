@@ -2,7 +2,7 @@ package org.fundacionjala.pivotal.cucumber.steps;
 
 import java.util.Map;
 
-import com.jayway.restassured.response.Response;
+import io.restassured.response.Response;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 
