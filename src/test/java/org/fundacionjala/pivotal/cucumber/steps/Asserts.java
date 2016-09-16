@@ -2,6 +2,7 @@ package org.fundacionjala.pivotal.cucumber.steps;
 
 import cucumber.api.java.en.Then;
 
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 import static org.fundacionjala.pivotal.util.CommonMethods.getStringValueFromMapOfResponses;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -12,20 +13,20 @@ public class Asserts {
 
     private static final int INDEX_2 = 1;
 
-    private ApiResources api;
+    private ApiResources resources;
 
-    public Asserts(ApiResources api) {
-        this.api = api;
-    }
-
-    @Then("^The (.*?) field should be equals? to (.*)$")
-    public void theProjectShouldBeUpdated(String fieldName, String expectedValue) {
-        assertEquals(expectedValue, api.getResponse().path(fieldName));
+    public Asserts(ApiResources resources) {
+        this.resources = resources;
     }
 
     @Then("^I expect the status code (\\d+)$")
     public void iExpectStatusCode(int statusCodeExpected) {
-        assertEquals(statusCodeExpected, api.getResponse().statusCode());
+        assertEquals(statusCodeExpected, resources.getResponse().statusCode());
+    }
+
+    @Then("^The (.*?) field should be equals? to (.*)$")
+    public void theProjectShouldBeUpdated(String fieldName, String expectedValue) {
+        assertEquals(expectedValue, resources.getResponse().path(fieldName));
     }
 
     @Then("^I expect that \\[(.*)\\] be (.*)$")
@@ -45,6 +46,12 @@ public class Asserts {
     @Then("^I validate fields$")
     public void iValidateFields() {
         final String expected = "newStory";
-        assertEquals(expected, api.getResponse().jsonPath().get("name"));
+        assertEquals(expected, resources.getResponse().jsonPath().get("name"));
     }
+
+    @Then("^validate the schema:$")
+    public void validateTheSchema(String schema)  {
+        resources.getResponse().then().assertThat().body(matchesJsonSchema(schema));
+    }
+
 }

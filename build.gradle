@@ -66,14 +66,6 @@ test {
     exclude 'org/fundacionjala/pivotal/cucumber/**'
 }
 
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled false
-        html.enabled true
-        html.stylesheet resources.text.fromFile('config/xsl/default.xsl')
-    }
-}
-
 def generateReport(String pathCucumber, String pathReport) {
     File reportOutputDirectory = new File(pathReport)
     List<String> jsonReportFiles = new ArrayList<>()
