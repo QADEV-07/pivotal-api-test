@@ -3,12 +3,13 @@ jdk:
 - oraclejdk8
 sudo: required
 
-script: gradle compileJava compileTestJava
+script: gradle check executeFeatures -PapiToken=11ad529712e337a3661f599d2034be8e
 branches:
 only: develop
 
 notifications:
-  email: true 
+  email: true
   recipients:
   - Rosario.Garcia@fundacion-jala.org
   - Bruno.Barrios@fundacion-jala.org
+  - carlos.gonzales@jalasoft.com
