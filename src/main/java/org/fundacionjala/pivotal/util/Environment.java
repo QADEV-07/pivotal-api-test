@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
  *
  * @author RosarioGarcia
  */
-public class Environment {
+public final class Environment {
 
     private static final Logger LOGGER = Logger.getLogger(Environment.class.getSimpleName());
 
@@ -46,8 +46,7 @@ public class Environment {
      * which contains the configurations to project
      */
     private void loadProperties() {
-        try {
-            FileInputStream fileInputStream = new FileInputStream(CONFIG_PROPERTIES);
+        try (FileInputStream fileInputStream = new FileInputStream(CONFIG_PROPERTIES)) {
             properties = new Properties();
             properties.load(fileInputStream);
             fileInputStream.close();
@@ -85,7 +84,7 @@ public class Environment {
         return String.format("http://%s:%s", getProxyHost(), getProxyPort());
     }
 
-    private String getProxyHost() {
+    public String getProxyHost() {
         return getProperty(PROXY_HOST);
     }
 
