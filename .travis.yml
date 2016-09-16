@@ -3,7 +3,7 @@ jdk:
 - oraclejdk8
 sudo: required
 
-script: gradle compileJava compileJavaTest
+script: gradle compileJava compileTestJava
 branches:
 only: develop
 

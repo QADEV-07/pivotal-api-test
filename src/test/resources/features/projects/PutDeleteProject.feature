@@ -2,7 +2,7 @@
 Feature: Testing for delete project in Pivotal
 
   Background: create a Project
-    Given  I send a POST request to /projects
+    Given I send a POST request to /projects
       | name   | Test Edit Project |
       | public | true              |
     And I expect the status code 200
