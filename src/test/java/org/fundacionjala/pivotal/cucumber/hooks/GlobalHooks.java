@@ -26,7 +26,7 @@ public class GlobalHooks {
 
     private static final String API_CREDENTIALS_INCORRECT = "The org rest credentials is not correct";
 
-    private boolean beforeAllFlag = false;
+    private static boolean beforeAllFlag = false;
 
     @Before
     public void beforeAll() {
