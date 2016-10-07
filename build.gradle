@@ -5,7 +5,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 //apply plugin: 'checkstyle'
 apply plugin: 'pmd'
-apply plugin: 'findbugs'
+//apply plugin: 'findbugs'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
